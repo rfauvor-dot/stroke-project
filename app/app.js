@@ -88,23 +88,13 @@ const views = {
           <div class="stat"><b>${recovered}</b><span>words recovered</span></div>
           <div class="stat"><b>${db.sessions.length}</b><span>sessions completed</span></div>
         </div>
-        ${notificationsSupported() && notificationPermission() === "default" ? `
-        <div class="card">
-          <b>Daily reminders</b>
-          <p class="muted small" style="margin-top:0.3rem">Get a gentle nudge at 9am, and again at 2pm if you haven't practiced yet. Only works while this app is open in your browser — see the note in Care Partner for what that means.</p>
-          <button class="btn btn-secondary" id="enable-reminders">Turn on reminders</button>
-        </div>` : ""}
+        ${notificationsSupported() ? `<div class="card" id="reminders-card"></div>` : ""}
         <button class="btn btn-quiet" id="replay-tut">Replay the tutorial</button>
         <p class="evidence-note">Semantic Feature Analysis — evidence-based treatment for anomia after stroke.</p>
       </div>`;
     document.getElementById("start").addEventListener("click", startSession);
     document.getElementById("replay-tut").addEventListener("click", () => go("tutorial"));
-    document.getElementById("enable-reminders")?.addEventListener("click", async e => {
-      const perm = await requestNotificationPermission();
-      e.target.closest(".card").innerHTML = perm === "granted"
-        ? `<b>Daily reminders</b><p class="muted small" style="margin-top:0.3rem;color:var(--green)">✓ On — you'll get a nudge at 9am and 2pm on days you haven't practiced yet.</p>`
-        : `<b>Daily reminders</b><p class="muted small" style="margin-top:0.3rem">Reminders need permission from your browser. You can turn them on from your browser's site settings if you change your mind.</p>`;
-    });
+    renderRemindersCard();
   },
 
   session() {
@@ -271,6 +261,7 @@ const views = {
       <div style="padding-top:1.5rem">
         <h1>Care partner view</h1>
         <p class="muted small">${esc(db.profile.caregiverName || "For the person supporting")} — a quiet window into how practice is going.</p>
+        ${notificationsSupported() ? `<p class="muted small" style="margin-top:0.3rem">Reminders: ${notificationPermission() !== "granted" ? "not turned on" : db.profile.remindersPaused ? "paused" : "on (9am / 2pm)"} — only fire while the app is open on her device, not a true push. <a href="#" id="reminders-explainer" style="color:var(--blue)">Why?</a></p>` : ""}
         ${inactive != null && inactive >= 3 ? `<div class="card" style="border-color:var(--accent)"><b style="color:var(--accent)">It's been ${inactive} days since the last practice.</b><p class="muted small" style="margin-top:0.3rem">A gentle nudge or offering to sit together for a session often helps more than a reminder.</p></div>` : ""}
         <div class="stat-grid">
           <div class="stat"><b>${recent.length}</b><span>sessions this week</span></div>
@@ -306,6 +297,10 @@ const views = {
         </div>
       </div>`;
     renderTtsDiagnostics();
+    document.getElementById("reminders-explainer")?.addEventListener("click", e => {
+      e.preventDefault();
+      alert("This app doesn't have a server yet, so reminders can't wake a locked phone the way texts or calls do — they only show up while Reclaim is open or in a background browser tab. True push notifications need real server infrastructure, which isn't built yet.");
+    });
     document.getElementById("checkin")?.addEventListener("click", renderCheckin);
     document.getElementById("export-data").addEventListener("click", async e => {
       const payload = JSON.stringify({ exportedAt: new Date().toISOString(), tts: getTtsDiagnostics(), ...db }, null, 2);
@@ -574,6 +569,35 @@ function renderTtsDiagnostics() {
     speak("This is a test of the practice voice.");
     setTimeout(() => renderTtsDiagnostics(), 1500); // re-render to pick up any new failure entry
   });
+}
+
+function renderRemindersCard() {
+  const card = document.getElementById("reminders-card");
+  if (!card) return;
+  const perm = notificationPermission();
+  const paused = !!db.profile.remindersPaused;
+
+  if (perm === "default") {
+    card.innerHTML = `<b>Daily reminders</b>
+      <p class="muted small" style="margin-top:0.3rem">Get a gentle nudge at 9am, and again at 2pm if you haven't practiced yet. Only works while this app is open in your browser — see the note in Care Partner for what that means.</p>
+      <button class="btn btn-secondary" id="enable-reminders">Turn on reminders</button>`;
+    document.getElementById("enable-reminders").addEventListener("click", async () => {
+      await requestNotificationPermission();
+      db.profile.remindersPaused = false; db_.save(db);
+      renderRemindersCard();
+    });
+  } else if (perm === "denied") {
+    card.innerHTML = `<b>Daily reminders</b>
+      <p class="muted small" style="margin-top:0.3rem">Reminders need permission from your browser. You can turn them on from your browser's site settings if you change your mind.</p>`;
+  } else { // granted
+    card.innerHTML = `<b>Daily reminders</b>
+      <p class="muted small" style="margin-top:0.3rem;color:${paused ? "var(--text-2)" : "var(--green)"}">${paused ? "Paused — you won't get 9am/2pm nudges right now." : "✓ On — a nudge at 9am and 2pm on days you haven't practiced yet."}</p>
+      <button class="btn btn-quiet" id="toggle-reminders">${paused ? "Turn back on" : "Pause reminders"}</button>`;
+    document.getElementById("toggle-reminders").addEventListener("click", () => {
+      db.profile.remindersPaused = !paused; db_.save(db);
+      renderRemindersCard();
+    });
+  }
 }
 
 function weekStart() {

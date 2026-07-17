@@ -46,6 +46,7 @@ function fire(title, body) {
 // while the tab is open. db must have profile.name and reminderLog (persisted
 // so a reminder never fires twice in one day even across reloads).
 export function checkReminders(db, hasSessionToday) {
+  if (db.profile.remindersPaused) return false; // app-level pause — browser permission can't be revoked via JS, so this is the actual off-switch
   const now = new Date();
   const hour = now.getHours();
   const today = todayStr();

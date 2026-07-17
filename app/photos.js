@@ -49,4 +49,42 @@ export const PHOTOS = {
     license: "Public domain",
     sourcePage: "https://commons.wikimedia.org/wiki/File:Handtuch.jpg",
   },
+
+  // Batch 2 (2026-07-17) — common concrete nouns, all verified same way.
+  cup: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Coffee_cup_(1).jpg",
+    credit: "Coffee cup — Wikimedia Commons",
+    license: "Public domain",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Coffee_cup_(1).jpg",
+  },
+  spoon: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Teaspoon_%26_tablespoon.jpg",
+    credit: "Teaspoon & tablespoon — Wikimedia Commons",
+    license: "CC BY-SA 3.0",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Teaspoon_%26_tablespoon.jpg",
+  },
+  key: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Standard-lock-key.jpg",
+    credit: "Standard lock key — Wikimedia Commons",
+    license: "Public domain",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Standard-lock-key.jpg",
+  },
+  shoes: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Adidas_Superstar_shoes_pair.jpg",
+    credit: "Adidas Superstar shoes, pair — Wikimedia Commons",
+    license: "CC BY 2.0",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Adidas_Superstar_shoes_pair.jpg",
+  },
+  toothbrush: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Toothbrush-20060209.JPG",
+    credit: "Toothbrushes in a cup — Wikimedia Commons",
+    license: "Public domain",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Toothbrush-20060209.JPG",
+  },
+  soap: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Bar_of_Castile_soap.jpg",
+    credit: "Bar of Castile soap — Wikimedia Commons",
+    license: "CC BY-SA 3.0 / GFDL",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Bar_of_Castile_soap.jpg",
+  },
 };
