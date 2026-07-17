@@ -87,4 +87,31 @@ export const PHOTOS = {
     license: "CC BY-SA 3.0 / GFDL",
     sourcePage: "https://commons.wikimedia.org/wiki/File:Bar_of_Castile_soap.jpg",
   },
+
+  // Batch 3 (2026-07-17) — window/TV/coat/umbrella skipped this round: no
+  // clean single-subject Commons photo found without forcing a weak match.
+  bread: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Loaf_of_Bread_(Unsplash_tm3Diid694Y).jpg",
+    credit: "Loaf of bread, sliced — Wikimedia Commons (Unsplash)",
+    license: "CC0 (public domain)",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Loaf_of_Bread_(Unsplash_tm3Diid694Y).jpg",
+  },
+  apple: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Red_Apple.jpg",
+    credit: "Red apple on white background — Wikimedia Commons",
+    license: "CC BY 2.0",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Red_Apple.jpg",
+  },
+  glasses: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Reading_glasses.jpg",
+    credit: "Reading glasses — Wikimedia Commons",
+    license: "Public domain",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Reading_glasses.jpg",
+  },
+  car: {
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:1992_Toyota_Corolla_(side_view)_(48419578466).jpg",
+    credit: "1992 Toyota Corolla, side view — Wikimedia Commons",
+    license: "CC BY 2.0",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:1992_Toyota_Corolla_(side_view)_(48419578466).jpg",
+  },
 };
