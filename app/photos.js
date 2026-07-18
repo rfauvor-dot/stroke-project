@@ -32,10 +32,15 @@ export const PHOTOS = {
     sourcePage: "https://commons.wikimedia.org/wiki/File:Average_White_Pillow.jpg",
   },
   stairs: {
-    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Interior_Apartment_Staircase_-_Modulightor_Building_Paul_Ruldolph.jpg",
-    credit: "Interior apartment staircase, Modulightor Building — Wikimedia Commons",
-    license: "CC BY-SA 4.0",
-    sourcePage: "https://commons.wikimedia.org/wiki/File:Interior_Apartment_Staircase_-_Modulightor_Building_Paul_Ruldolph.jpg",
+    // Swapped 2026-07-18: the original pick (Modulightor Building) was a
+    // cluttered architectural interior shot — technically a staircase, but
+    // buried behind shelving/decor, so it read as "bookshelf" or "room"
+    // rather than "stairs." I'd only checked its Commons metadata text, not
+    // actually looked at the image — replaced with one I viewed directly.
+    url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Trustees'_Building_stair_at_Pleasant_Hill.jpg",
+    credit: "Trustees' Building stair at Pleasant Hill (Dana Buntrock) — Wikimedia Commons",
+    license: "CC BY 2.0",
+    sourcePage: "https://commons.wikimedia.org/wiki/File:Trustees'_Building_stair_at_Pleasant_Hill.jpg",
   },
   library: {
     url: "https://commons.wikimedia.org/wiki/Special:FilePath/File:Library_book_stacks.jpg",
