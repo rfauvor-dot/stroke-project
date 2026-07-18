@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reclaim — Word/Picture Visual Audit</title>
+<style>
+  :root {
+    --bg: #F7F4EF; --surface: #FFFFFF; --border: #DDD6CC;
+    --text: #26221C; --text-2: #6E675E;
+    --photo: #3E7A57; --photo-dim: #E3EFE7;
+    --icon: #B85C43; --icon-dim: #F3E2DC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text); margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  header { padding: 1.5rem 2rem 1rem; border-bottom: 1px solid var(--border); }
+  h1 { font-family: Georgia, serif; font-size: 1.5rem; margin: 0 0 0.25rem; }
+  .sub { color: var(--text-2); font-size: 0.9rem; }
+  .counts { display: flex; gap: 1.5rem; margin-top: 0.75rem; font-size: 0.85rem; }
+  .counts span b { font-variant-numeric: tabular-nums; }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; }
+  .dot.photo { background: var(--photo); }
+  .dot.icon { background: var(--icon); }
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem; padding: 1.5rem 2rem 3rem;
+  }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 0.75rem; text-align: center;
+  }
+  .card.is-icon { border-color: var(--icon); }
+  .pic-box {
+    width: 100%; height: 110px; display: flex; align-items: center; justify-content: center;
+    background: #FAFAF7; border-radius: 6px; overflow: hidden; margin-bottom: 0.5rem;
+  }
+  .pic-box img { width: 100%; height: 100%; object-fit: cover; }
+  .pic-box .icon-pic { width: 3.2rem; height: 3.2rem; color: var(--icon); }
+  .pic-box .icon-pic svg { width: 100%; height: 100%; }
+  .word { font-weight: 700; font-size: 0.95rem; }
+  .set { font-size: 0.72rem; color: var(--text-2); margin-top: 0.15rem; }
+  .badge {
+    display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 4px; margin-top: 0.35rem;
+  }
+  .badge.photo { background: var(--photo-dim); color: var(--photo); }
+  .badge.icon { background: var(--icon-dim); color: var(--icon); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Word / Picture Visual Audit</h1>
+    <div class="sub">Every word in the Reclaim library with its current picture, rendered exactly as the app shows it. Flag anything that doesn't clearly show its word.</div>
+    <div class="counts" id="counts"></div>
+  </header>
+  <div class="grid" id="grid"></div>
+  <script type="module">
+    import { WORDS, WORD_SETS } from "./data.js";
+    import { pictureHtml } from "./icons.js";
+    import { PHOTOS } from "./photos.js";
+
+    const setName = id => WORD_SETS.find(s => s.id === id)?.name ?? "";
+    const grid = document.getElementById("grid");
+    let photoCount = 0;
+
+    for (const w of WORDS) {
+      const hasPhoto = !!PHOTOS[w.word];
+      if (hasPhoto) photoCount++;
+      const card = document.createElement("div");
+      card.className = "card" + (hasPhoto ? "" : " is-icon");
+      card.innerHTML = `
+        <div class="pic-box">${pictureHtml(w)}</div>
+        <div class="word">${w.word}</div>
+        <div class="set">${setName(w.set)}</div>
+        <div class="badge ${hasPhoto ? "photo" : "icon"}">${hasPhoto ? "Photo" : "Icon"}</div>
+      `;
+      grid.appendChild(card);
+    }
+
+    document.getElementById("counts").innerHTML = `
+      <span><span class="dot photo"></span><b>${photoCount}</b> / ${WORDS.length} have real photos</span>
+      <span><span class="dot icon"></span><b>${WORDS.length - photoCount}</b> still on icon/emoji</span>
+    `;
+  </script>
+</body>
+</html>
