@@ -5,6 +5,7 @@ import * as db_ from "./store.js";
 import { speak, getTtsDiagnostics } from "./tts.js";
 import { pictureHtml } from "./icons.js";
 import { checkReminders, requestNotificationPermission, notificationPermission, notificationsSupported } from "./notifications.js";
+import * as cloud from "./cloud.js";
 
 // Spoken guidance — short, calm coaching prompts layered on the existing TTS.
 // Delay avoids colliding with content speech (cues, revealed features).
@@ -89,12 +90,14 @@ const views = {
           <div class="stat"><b>${db.sessions.length}</b><span>sessions completed</span></div>
         </div>
         ${notificationsSupported() ? `<div class="card" id="reminders-card"></div>` : ""}
+        ${cloud.cloudAvailable ? `<div class="card" id="cloud-sync-card"></div>` : ""}
         <button class="btn btn-quiet" id="replay-tut">Replay the tutorial</button>
         <p class="evidence-note">Semantic Feature Analysis — evidence-based treatment for anomia after stroke.</p>
       </div>`;
     document.getElementById("start").addEventListener("click", startSession);
     document.getElementById("replay-tut").addEventListener("click", () => go("tutorial"));
     renderRemindersCard();
+    renderCloudSyncCard();
   },
 
   session() {
@@ -292,11 +295,13 @@ const views = {
           <b>Voice diagnostics</b>
           <p class="muted small">If the voice sounds robotic on this device, this shows why.</p>
         </div>
+        ${cloud.cloudAvailable ? `<div class="card" id="cloud-link-card"></div>` : ""}
         <div class="card">
           <button class="btn btn-quiet" id="export-data">Copy data export</button>
         </div>
       </div>`;
     renderTtsDiagnostics();
+    renderCloudLinkCard();
     document.getElementById("reminders-explainer")?.addEventListener("click", e => {
       e.preventDefault();
       alert("This app doesn't have a server yet, so reminders can't wake a locked phone the way texts or calls do — they only show up while Reclaim is open or in a background browser tab. True push notifications need real server infrastructure, which isn't built yet.");
@@ -465,6 +470,15 @@ function finishCard(success) {
   speak(c.word.word); // reinforce with the spoken word on every success
   s.results.push({ wordId: c.word.id, cueLevel: c.cueLevel, hintsUsed: c.hintsUsed ?? 0, latencyMs });
   db.srs[c.word.id] = eng.recordOutcome(db.srs[c.word.id] ?? eng.newSrsState(c.word.id), c.cueLevel);
+  // Persist per-attempt rows (previously only session-level rollups were kept —
+  // the Supabase `attempts` table needs real per-word rows for cue-depth trend
+  // data). Trimmed locally; the cloud is the long-term store once configured.
+  db.attempts.push({
+    sessionId: s.id, wordId: c.word.id, cueLevel: c.cueLevel,
+    hintsUsed: c.hintsUsed ?? 0, latencyMs, selfScoredSuccess: true,
+    date: s.date, createdAt: Date.now(),
+  });
+  if (db.attempts.length > 1000) db.attempts = db.attempts.slice(-1000);
   syncSession("abandoned"); // provisional state; finalized in endSession
 
   const prevState = s.monitor.state;
@@ -565,7 +579,7 @@ function renderTtsDiagnostics() {
   card.innerHTML = `
     <b>Voice diagnostics</b>
     <p class="muted small">If the voice sounds robotic on this device, this shows why.</p>
-    <p style="margin-top:0.6rem"><b>Natural voice:</b> ${diag.usingElevenLabs ? "configured ✓" : "no key set — always uses the robotic browser voice"}</p>
+    <p style="margin-top:0.6rem"><b>Natural voice:</b> ${diag.usingElevenLabs ? `configured ✓${diag.viaProxy ? " (via server proxy — key not exposed to this device)" : " (direct key — not yet behind the server proxy)"}` : "no key set — always uses the robotic browser voice"}</p>
     ${recent.length ? `
       <p class="small" style="margin-top:0.6rem;color:var(--accent);font-weight:600">Recent fallbacks on this device:</p>
       ${recent.map(f => `<p class="muted small">${new Date(f.t).toLocaleString()} — ${stageLabel(f.stage)}${f.stage.startsWith("http-") ? ` (${f.message.slice(0,80)})` : ""}</p>`).join("")}
@@ -608,6 +622,107 @@ function renderRemindersCard() {
   }
 }
 
+// Patient-side opt-in: only rendered when cloud.cloudAvailable (i.e. Rick
+// has configured SUPABASE_URL/ANON_KEY) — inert on every device until then.
+// Magic-link email, no password: one less field for someone with
+// word-finding difficulty to fumble.
+async function renderCloudSyncCard() {
+  const card = document.getElementById("cloud-sync-card");
+  if (!card) return;
+  const user = await cloud.currentUser();
+  const { patientId } = db_.getCloudIdentity();
+
+  if (user && patientId) {
+    card.innerHTML = `<b>Sync across devices</b>
+      <p class="muted small" style="margin-top:0.3rem;color:var(--green)">✓ Connected — a care partner can see your progress from their own device.</p>`;
+    return;
+  }
+  if (user && !patientId) {
+    // signed in (e.g. returned via magic link) but profile/link not finished yet
+    const profile = await cloud.ensureProfile("patient", db.profile.name || "Friend");
+    if (profile) {
+      db_.setCloudIdentity({ patientId: profile.id });
+      db.profile.cloudLinkCode = profile.link_code;
+      db.profile.cloudPatientId = profile.id;
+      db_.save(db);
+      await db_.syncFromCloud();
+      db = db_.load();
+    }
+    return renderCloudSyncCard();
+  }
+  card.innerHTML = `<b>Sync across devices</b>
+    <p class="muted small" style="margin-top:0.3rem">Let a care partner see your progress from their own phone or computer. Enter your email and we'll send a link — no password to remember.</p>
+    <input type="text" id="cloud-email" placeholder="your email" autocomplete="email" style="margin-top:0.5rem">
+    <button class="btn btn-secondary" id="cloud-send-link">Send link</button>
+    <p class="muted small" id="cloud-status" style="margin-top:0.4rem"></p>`;
+  document.getElementById("cloud-send-link").addEventListener("click", async () => {
+    const email = document.getElementById("cloud-email").value.trim();
+    const status = document.getElementById("cloud-status");
+    if (!email) { status.textContent = "Enter an email first."; return; }
+    status.textContent = "Sending…";
+    try {
+      await cloud.sendMagicLink(email);
+      status.textContent = "Check your email for a link — opening it on this device finishes setup.";
+    } catch (err) {
+      status.textContent = "Couldn't send that — " + err.message;
+    }
+  });
+}
+
+// Caregiver-side: sign in (magic link, same as patient) then redeem the
+// patient's 6-character link code. Only rendered when cloud.cloudAvailable.
+async function renderCloudLinkCard() {
+  const card = document.getElementById("cloud-link-card");
+  if (!card) return;
+  const user = await cloud.currentUser();
+  const { patientId: linkedPatientId } = db_.getCloudIdentity();
+
+  if (user && linkedPatientId) {
+    card.innerHTML = `<b>Cross-device sync</b>
+      <p class="muted small" style="margin-top:0.3rem;color:var(--green)">✓ Linked — this device shows the same data as hers, kept in sync automatically.</p>`;
+    return;
+  }
+  if (user && !linkedPatientId) {
+    let profile = null;
+    try { profile = await cloud.ensureProfile("caregiver", db.profile.caregiverName || "Care partner"); } catch {}
+    card.innerHTML = `<b>Cross-device sync</b>
+      <p class="muted small" style="margin-top:0.3rem">Signed in. Enter the code from her Home screen ("Sync across devices") to connect.</p>
+      <input type="text" id="link-code" placeholder="6-character code" style="margin-top:0.5rem;text-transform:uppercase">
+      <button class="btn btn-secondary" id="link-submit">Connect</button>
+      <p class="muted small" id="link-status" style="margin-top:0.4rem"></p>`;
+    document.getElementById("link-submit").addEventListener("click", async () => {
+      const code = document.getElementById("link-code").value.trim();
+      const status = document.getElementById("link-status");
+      try {
+        const patient = await cloud.linkToPatient(code);
+        db_.setCloudIdentity({ caregiverId: profile?.id, patientId: patient.id });
+        db.profile.cloudCaregiverId = profile?.id;
+        db.profile.cloudLinkedPatientId = patient.id;
+        db_.save(db);
+        await db_.syncFromCloud();
+        db = db_.load();
+        renderCloudLinkCard();
+      } catch (err) { status.textContent = err.message; }
+    });
+    return;
+  }
+  card.innerHTML = `<b>Cross-device sync</b>
+    <p class="muted small" style="margin-top:0.3rem">See her progress from your own phone or computer. Enter your email for a sign-in link — no password needed.</p>
+    <input type="text" id="cg-email" placeholder="your email" autocomplete="email" style="margin-top:0.5rem">
+    <button class="btn btn-secondary" id="cg-send-link">Send link</button>
+    <p class="muted small" id="cg-status" style="margin-top:0.4rem"></p>`;
+  document.getElementById("cg-send-link").addEventListener("click", async () => {
+    const email = document.getElementById("cg-email").value.trim();
+    const status = document.getElementById("cg-status");
+    if (!email) { status.textContent = "Enter an email first."; return; }
+    status.textContent = "Sending…";
+    try {
+      await cloud.sendMagicLink(email);
+      status.textContent = "Check your email for a link — opening it on this device finishes setup.";
+    } catch (err) { status.textContent = "Couldn't send that — " + err.message; }
+  });
+}
+
 function weekStart() {
   const d = new Date(); d.setDate(d.getDate() - d.getDay());
   return eng.localDate(d);
@@ -627,5 +742,26 @@ function runReminderCheck() {
 runReminderCheck();
 document.addEventListener("visibilitychange", () => { if (!document.hidden) runReminderCheck(); });
 setInterval(runReminderCheck, 5 * 60 * 1000);
+
+// ── Cloud sync boot ─────────────────────────────────────────────
+// Entirely inert unless cloud.cloudAvailable (SUPABASE_URL/ANON_KEY set) —
+// see cloud.js. Restores identity from a prior sign-in on this device,
+// pulls the cloud copy once, and re-renders if the current view changed.
+async function bootCloudSync() {
+  if (!cloud.cloudAvailable) return;
+  const user = await cloud.currentUser();
+  if (!user) return;
+  if (db.profile.cloudPatientId) db_.setCloudIdentity({ patientId: db.profile.cloudPatientId });
+  if (db.profile.cloudCaregiverId && db.profile.cloudLinkedPatientId) {
+    db_.setCloudIdentity({ caregiverId: db.profile.cloudCaregiverId, patientId: db.profile.cloudLinkedPatientId });
+  }
+  const { patientId } = db_.getCloudIdentity();
+  if (patientId) {
+    const merged = await db_.syncFromCloud();
+    if (merged) { db = merged; go(document.querySelector("nav button.active")?.dataset.view || "home"); }
+  }
+}
+cloud.onAuthChange(() => bootCloudSync()); // fires after a magic-link redirect completes sign-in
+bootCloudSync();
 
 go(db.profile.onboarded ? "home" : "onboarding");

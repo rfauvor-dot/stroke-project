@@ -12,16 +12,19 @@
 //   3. Default voice is Sarah (EXAVITQu4vr4xnSDxMaL) — same reference voice used
 //      for Pearl. Override via ELEVEN_VOICE_ID in config.local.js if desired.
 //
-// This is a static site with no server yet, so the key necessarily ships to the
-// client that loads config.local.js — acceptable for a private beta-test build,
-// but config.local.js MUST stay out of version control (see .gitignore) and
-// must be replaced by a real backend/env-var proxy before any public release.
+// If TTS_PROXY_URL is set (config.local.js), the key never touches the
+// browser at all — see supabase/functions/tts-proxy for the server-side
+// proxy that holds it instead. Without a proxy URL, this falls back to the
+// direct-key path below, same as it's always worked (fine for a private
+// beta build; must not ship in a public build without the proxy deployed).
 
-import { ELEVEN_API_KEY, ELEVEN_VOICE_ID } from "./config.local.js";
+import { ELEVEN_API_KEY, ELEVEN_VOICE_ID, TTS_PROXY_URL } from "./config.local.js";
 
 const DEFAULT_VOICE_ID = "EXAVITQu4vr4xnSDxMaL"; // ElevenLabs "Sarah"
 const voiceId = ELEVEN_VOICE_ID || DEFAULT_VOICE_ID;
 const haveKey = !!ELEVEN_API_KEY && ELEVEN_API_KEY !== "REPLACE_ME";
+const haveProxy = !!TTS_PROXY_URL;
+const haveElevenLabs = haveKey || haveProxy;
 
 let audioEl = null;
 const cache = new Map(); // text -> object URL, since the word/cue library is finite and repeats a lot
@@ -39,7 +42,7 @@ function logFailure(stage, err) {
   if (failureLog.length > 20) failureLog.shift();
 }
 export function getTtsDiagnostics() {
-  return { usingElevenLabs: haveKey, voiceId, failures: [...failureLog] };
+  return { usingElevenLabs: haveElevenLabs, viaProxy: haveProxy, voiceId, failures: [...failureLog] };
 }
 
 function pickWebSpeechVoice() {
@@ -62,13 +65,19 @@ async function speakElevenLabs(text, rate, interrupt) {
   if (interrupt) stop();
   let url = cache.get(text);
   if (!url) {
+    // Proxy path: key stays server-side, we just pass through the request.
+    // Direct path: only used until the proxy is deployed (see TTS_PROXY_URL).
+    const endpoint = haveProxy ? TTS_PROXY_URL : `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+    const headers = haveProxy
+      ? { "Content-Type": "application/json", "Accept": "audio/mpeg" }
+      : { "xi-api-key": ELEVEN_API_KEY, "Content-Type": "application/json", "Accept": "audio/mpeg" };
     let res;
     try {
-      res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      res = await fetch(endpoint, {
         method: "POST",
-        headers: { "xi-api-key": ELEVEN_API_KEY, "Content-Type": "application/json", "Accept": "audio/mpeg" },
+        headers,
         body: JSON.stringify({
-          text,
+          text, voiceId,
           model_id: "eleven_turbo_v2_5",
           voice_settings: { stability: 0.55, similarity_boost: 0.75, speed: rate },
         }),
@@ -80,7 +89,7 @@ async function speakElevenLabs(text, rate, interrupt) {
     }
     if (!res.ok) {
       const detail = await res.text().catch(() => "");
-      const httpErr = new Error(`ElevenLabs ${res.status}: ${detail.slice(0, 200)}`);
+      const httpErr = new Error(`${haveProxy ? "TTS proxy" : "ElevenLabs"} ${res.status}: ${detail.slice(0, 200)}`);
       logFailure("http-" + res.status, httpErr);
       throw httpErr;
     }
@@ -102,7 +111,7 @@ async function speakElevenLabs(text, rate, interrupt) {
 // interrupt: true cuts off current speech; false queues after it (for chained prompts)
 export function speak(text, { rate = 0.85, interrupt = true } = {}) {
   if (!text) return;
-  if (haveKey) {
+  if (haveElevenLabs) {
     speakElevenLabs(text, rate, interrupt).catch(err => {
       console.error("[tts] ElevenLabs failed, falling back to browser voice:", err.message);
       speakWebSpeech(text, rate);
@@ -117,4 +126,4 @@ export function stop() {
   audioEl?.pause();
 }
 
-export const usingElevenLabs = haveKey;
+export const usingElevenLabs = haveElevenLabs;

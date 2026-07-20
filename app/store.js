@@ -1,13 +1,24 @@
-// Reclaim — persistence adapter. Phase 1 demo mode: localStorage mirror of the Supabase schema.
-// Swap `backend` for a Supabase implementation with the same interface when credentials exist.
+// Reclaim — persistence adapter. localStorage is always the source of truth
+// for reads (instant, offline-safe); if cloud sync is configured and the
+// device is signed in, writes are also mirrored to Supabase in the
+// background (see cloud.js for why this is a mirror, not a replacement).
+
+import * as cloud from "./cloud.js";
 
 const KEY = "reclaim_v1";
+
+// Set once after sign-in/link (see app.js's cloud-sync setup flow). Null on
+// any device that hasn't opted in — save()/checkin still work identically,
+// just localStorage-only, exactly like before this feature existed.
+let cloudIds = { patientId: null, caregiverId: null };
+export function setCloudIdentity(ids) { cloudIds = { ...cloudIds, ...ids }; }
+export function getCloudIdentity() { return cloudIds; }
 
 const DEFAULTS = {
   profile: { name: "", severity: 2, sessionTargetMin: 10, onboarded: false, caregiverName: "" },
   srs: {},          // wordId -> srs state
   sessions: [],     // {id, date, startedAt, endedAt, plannedMin, endState, attempts: n, l0l1: n, meanLatency, meanCue}
-  attempts: [],     // {sessionId, wordId, cueLevel, latencyMs, date}
+  attempts: [],     // {sessionId, wordId, cueLevel, hintsUsed, latencyMs, selfScoredSuccess, date, createdAt}
   checkins: [],     // {weekStart, scores:[5], total}
   streak: { count: 0, lastDate: null },
 };
@@ -20,7 +31,68 @@ export function load() {
   return structuredClone(DEFAULTS);
 }
 
-export function save(db) { localStorage.setItem(KEY, JSON.stringify(db)); }
+export function save(db) {
+  localStorage.setItem(KEY, JSON.stringify(db));
+  syncToCloudInBackground(db); // fire-and-forget; no-ops if cloud sync isn't configured/linked
+}
+
+// Incremental push cursor — avoids re-sending the entire local history on
+// every save() call (which happens after nearly every user action).
+const cloudCursor = { attemptsPushed: 0, srsPushed: {}, checkinsPushed: 0 };
+
+function syncToCloudInBackground(db) {
+  if (!cloud.cloudAvailable || !cloudIds.patientId) return;
+  const pid = cloudIds.patientId;
+
+  if (db.sessions.length) cloud.pushSession(pid, db.sessions[db.sessions.length - 1]);
+
+  const newAttempts = db.attempts.slice(cloudCursor.attemptsPushed);
+  if (newAttempts.length) {
+    cloud.pushAttempts(pid, newAttempts);
+    cloudCursor.attemptsPushed = db.attempts.length;
+  }
+
+  for (const [wordId, srs] of Object.entries(db.srs)) {
+    if (cloudCursor.srsPushed[wordId] !== srs.reps) {
+      cloud.pushSrsState(pid, Number(wordId), srs);
+      cloudCursor.srsPushed[wordId] = srs.reps;
+    }
+  }
+
+  if (cloudIds.caregiverId) {
+    const newCheckins = db.checkins.slice(cloudCursor.checkinsPushed);
+    for (const ci of newCheckins) cloud.pushCheckin(pid, cloudIds.caregiverId, ci);
+    if (newCheckins.length) cloudCursor.checkinsPushed = db.checkins.length;
+  }
+}
+
+// Called once at boot if signed in (see app.js). Pulls the cloud copy and
+// merges it into the local db — conservative merge (never drops local data
+// that hasn't synced yet), so this is what lets a caregiver's device see
+// sessions done on the patient's phone, and vice versa after a re-open.
+export async function syncFromCloud() {
+  if (!cloud.cloudAvailable || !cloudIds.patientId) return null;
+  const remote = await cloud.pullAll(cloudIds.patientId);
+  if (!remote) return null;
+
+  const db = load();
+  for (const s of remote.sessions) {
+    const i = db.sessions.findIndex(x => x.id === s.id);
+    if (i >= 0) db.sessions[i] = s; else db.sessions.push(s);
+  }
+  db.sessions.sort((a, b) => a.startedAt - b.startedAt);
+
+  for (const [wordId, srs] of Object.entries(remote.srs)) {
+    const local = db.srs[wordId];
+    if (!local || (srs.reps ?? 0) >= (local.reps ?? 0)) db.srs[wordId] = srs;
+  }
+
+  const localWeeks = new Set(db.checkins.map(c => c.weekStart));
+  for (const ci of remote.checkins) if (!localWeeks.has(ci.weekStart)) db.checkins.push(ci);
+
+  save(db);
+  return db;
+}
 
 export function bumpStreak(db, dateStr) {
   const { streak } = db;
