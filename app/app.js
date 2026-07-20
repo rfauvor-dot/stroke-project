@@ -371,7 +371,16 @@ function renderReinforcement(attempt = 1) {
     </div>`;
   speak(w.word, { interrupt: false });
   guide("Now say it with me: " + w.word, 900);
-  document.getElementById("repeated").addEventListener("click", () => renderVerification(attempt));
+  document.getElementById("repeated").addEventListener("click", () => {
+    if (attempt === 1) {
+      // first pass: verify she actually recognized the word before logging success
+      renderVerification(attempt);
+    } else {
+      // retry after "Not quite": the repeat itself IS the completion step —
+      // don't re-ask verification, that's the loop that was reported as a bug.
+      finishCard(true);
+    }
+  });
 }
 
 function renderVerification(attempt) {
@@ -386,11 +395,10 @@ function renderVerification(attempt) {
   guide("Was that the word you had in mind?", 300);
   document.getElementById("v-yes").addEventListener("click", () => finishCard(true));
   document.getElementById("v-no").addEventListener("click", () => {
-    // errorless recovery: one more full-support pass, capped so it can't loop forever
-    if (attempt >= 2) { session.card.cueLevel = eng.CUE.REPEAT; return finishCard(true); }
-    session.card.cueLevel = Math.min(session.card.cueLevel + 1, eng.CUE.REPEAT);
+    // errorless recovery: one more full-support pass, then done — no second verification
+    session.card.cueLevel = eng.CUE.REPEAT;
     guide("That's alright — let's hear it once more.", 200);
-    renderReinforcement(attempt + 1);
+    renderReinforcement(2);
   });
 }
 
