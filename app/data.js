@@ -1,5 +1,9 @@
-// Reclaim — Phase 1 word library (8 sets × 6 words = 48 items for beta; expands to 24×8)
-// Each word carries its SFA feature answers + cue ladder content.
+// Reclaim — full word library, 24 sets × 8 words = 192 items (expanded 2026-07-20
+// from the 48-word Phase 1 beta set — the original 8 sets each grew from 6→8
+// words, plus 16 new sets). Each word carries its SFA feature answers + cue
+// ladder content. Photos: see app/photos.js — the original 48 are individually
+// sourced/verified; the 144 new words use emoji/icon placeholders only, pending
+// real photos (Rick sourcing these himself — see PHOTO_STATUS.md for the list).
 
 export const WORD_SETS = [
   { id: 1, name: "Kitchen & Food", category: "household" },
@@ -10,6 +14,22 @@ export const WORD_SETS = [
   { id: 6, name: "Health & Daily Care", category: "health" },
   { id: 7, name: "In the Garden", category: "outdoors" },
   { id: 8, name: "Everyday Actions", category: "actions" },
+  { id: 9, name: "Weather", category: "nature" },
+  { id: 10, name: "Body Parts", category: "health" },
+  { id: 11, name: "Food & Drink", category: "household" },
+  { id: 12, name: "Kitchen Items", category: "household" },
+  { id: 13, name: "Bedroom & Bathroom", category: "household" },
+  { id: 14, name: "Living Room & Electronics", category: "household" },
+  { id: 15, name: "Transportation", category: "community" },
+  { id: 16, name: "Community Places", category: "community" },
+  { id: 17, name: "Nature & Outdoors", category: "nature" },
+  { id: 18, name: "Animals", category: "nature" },
+  { id: 19, name: "Tools & Repair", category: "hobbies" },
+  { id: 20, name: "School & Hobbies", category: "hobbies" },
+  { id: 21, name: "Money & Shopping", category: "community" },
+  { id: 22, name: "Sports & Recreation", category: "hobbies" },
+  { id: 23, name: "Celebrations", category: "hobbies" },
+  { id: 24, name: "Health & Mobility Aids", category: "health" },
 ];
 
 export const WORDS = [
@@ -20,6 +40,8 @@ export const WORDS = [
   { id: 104, set: 1, word: "kettle", icon: "kettle", category: "a kitchen appliance", use: "boiling water", property: "has a spout and whistles", location: "on the stove or counter", association: "making tea", frame: "To boil water for tea, you fill the ___", phoneme: "k", difficulty: 2 },
   { id: 105, set: 1, word: "apple", emoji: "🍎", category: "a fruit", use: "eating as a snack", property: "round, red or green", location: "in the fruit bowl", association: "the doctor away", frame: "An ___ a day keeps the doctor away", phoneme: "a", difficulty: 1 },
   { id: 106, set: 1, word: "refrigerator", icon: "fridge", category: "a large appliance", use: "keeping food cold", property: "tall, white, with doors", location: "in the kitchen", association: "milk and leftovers", frame: "You keep milk cold in the ___", phoneme: "r", difficulty: 3 },
+  { id: 107, set: 1, word: "plate", emoji: "🍽️", category: "something you eat off", use: "holding your food", property: "round and flat", location: "in the cupboard", association: "dinner time", frame: "You put your dinner on a ___", phoneme: "pl", difficulty: 1 },
+  { id: 108, set: 1, word: "milk", emoji: "🥛", category: "something you drink", use: "pouring over cereal", property: "white liquid", location: "in the refrigerator", association: "breakfast", frame: "You pour ___ over your cereal", phoneme: "m", difficulty: 1 },
 
   // set 2 — Family & People
   { id: 201, set: 2, word: "husband", emoji: "🧑", category: "a family member", use: "your partner in marriage", property: "the man you married", location: "at home with you", association: "your wedding day", frame: "The man you married is your ___", phoneme: "h", difficulty: 1 },
@@ -28,6 +50,8 @@ export const WORDS = [
   { id: 204, set: 2, word: "doctor", emoji: "🩺", category: "a profession", use: "treating people who are sick", property: "wears a white coat", location: "at the clinic or hospital", association: "a stethoscope", frame: "When you're sick, you go to see the ___", phoneme: "d", difficulty: 1 },
   { id: 205, set: 2, word: "friend", emoji: "🤝", category: "a person you care about", use: "someone you enjoy spending time with", property: "kind, trusted", location: "wherever you meet up", association: "laughing together", frame: "Someone you trust and enjoy time with is a ___", phoneme: "f", difficulty: 1 },
   { id: 206, set: 2, word: "grandson", emoji: "👦", category: "a family member", use: "your child's son", property: "young, calls you Grandma", location: "in the family", association: "birthday visits", frame: "Your child's little boy is your ___", phoneme: "g", difficulty: 2 },
+  { id: 207, set: 2, word: "wife", emoji: "👩", category: "a family member", use: "your partner in marriage", property: "the woman you married", location: "at home with you", association: "your wedding day", frame: "The woman you married is your ___", phoneme: "w", difficulty: 1 },
+  { id: 208, set: 2, word: "sister", emoji: "👭", category: "a family member", use: "your parents' other daughter", property: "grew up with you", location: "in the family", association: "childhood memories", frame: "Your parents' other daughter is your ___", phoneme: "s", difficulty: 2 },
 
   // set 3 — Around the House
   { id: 301, set: 3, word: "key", emoji: "🔑", category: "a small object", use: "unlocking the door", property: "small, metal, jagged edge", location: "in your pocket or by the door", association: "locking up at night", frame: "You unlock the front door with a ___", phoneme: "k", difficulty: 1 },
@@ -36,6 +60,8 @@ export const WORDS = [
   { id: 304, set: 3, word: "television", emoji: "📺", category: "an electronic device", use: "watching shows and news", property: "flat screen, has a remote", location: "in the living room", association: "the evening news", frame: "You watch your favorite show on the ___", phoneme: "t", difficulty: 2 },
   { id: 305, set: 3, word: "stairs", icon: "stairs", category: "part of a house", use: "going up and down floors", property: "steps in a row", location: "between floors", association: "holding the handrail", frame: "To reach the second floor you climb the ___", phoneme: "st", difficulty: 2 },
   { id: 306, set: 3, word: "telephone", emoji: "📞", category: "a device", use: "calling people", property: "it rings", location: "in your hand or on the wall", association: "hearing a loved one's voice", frame: "When it rings, you answer the ___", phoneme: "t", difficulty: 2 },
+  { id: 307, set: 3, word: "clock", emoji: "🕐", category: "something that tells time", use: "knowing what time it is", property: "has hands or numbers", location: "on the wall", association: "being on time", frame: "You check the ___ to see what time it is", phoneme: "kl", difficulty: 1 },
+  { id: 308, set: 3, word: "lamp", emoji: "💡", category: "something that gives light", use: "lighting up a room", property: "has a shade and a bulb", location: "on a table or nightstand", association: "reading at night", frame: "You turn on the ___ to read at night", phoneme: "l", difficulty: 1 },
 
   // set 4 — Getting Dressed
   { id: 401, set: 4, word: "shoes", emoji: "👟", category: "something you wear", use: "protecting your feet", property: "come in pairs, have laces", location: "by the front door", association: "going for a walk", frame: "Before going outside, you put on your ___", phoneme: "sh", difficulty: 1 },
@@ -44,6 +70,8 @@ export const WORDS = [
   { id: 404, set: 4, word: "button", emoji: "🔘", category: "part of clothing", use: "fastening a shirt", property: "small and round", location: "down the front of a shirt", association: "buttoning up", frame: "You fasten your shirt with a ___", phoneme: "b", difficulty: 2 },
   { id: 405, set: 4, word: "scarf", emoji: "🧣", category: "clothing", use: "keeping your neck warm", property: "long and soft", location: "around your neck", association: "winter wind", frame: "In winter you wrap your neck in a ___", phoneme: "sk", difficulty: 2 },
   { id: 406, set: 4, word: "umbrella", emoji: "☂️", category: "something you carry", use: "staying dry in the rain", property: "opens wide, has a handle", location: "by the door", association: "rainy days", frame: "When it rains, you open your ___", phoneme: "u", difficulty: 3 },
+  { id: 407, set: 4, word: "hat", emoji: "🧢", category: "something you wear", use: "covering your head", property: "goes on top of your head", location: "on a hook by the door", association: "sunny days", frame: "You cover your head with a ___", phoneme: "h", difficulty: 1 },
+  { id: 408, set: 4, word: "gloves", emoji: "🧤", category: "something you wear", use: "keeping your hands warm", property: "one for each hand", location: "in your coat pocket", association: "cold weather", frame: "In the cold, you warm your hands with ___", phoneme: "gl", difficulty: 2 },
 
   // set 5 — Out & About
   { id: 501, set: 5, word: "car", emoji: "🚗", category: "a vehicle", use: "driving places", property: "four wheels, an engine", location: "in the driveway", association: "road trips", frame: "You drive to the store in your ___", phoneme: "k", difficulty: 1 },
@@ -52,6 +80,8 @@ export const WORDS = [
   { id: 504, set: 5, word: "church", emoji: "⛪", category: "a place", use: "worship and community", property: "has a steeple", location: "in the neighborhood", association: "Sunday mornings", frame: "On Sunday mornings some people go to ___", phoneme: "ch", difficulty: 2 },
   { id: 505, set: 5, word: "library", icon: "library", category: "a place", use: "borrowing books", property: "quiet, full of shelves", location: "in town", association: "a library card", frame: "You borrow books from the ___", phoneme: "l", difficulty: 2 },
   { id: 506, set: 5, word: "restaurant", emoji: "🍽️", category: "a place", use: "eating a meal out", property: "has menus and waiters", location: "in town", association: "a dinner date", frame: "For a nice dinner out, you go to a ___", phoneme: "r", difficulty: 3 },
+  { id: 507, set: 5, word: "bus", emoji: "🚌", category: "a vehicle", use: "carrying lots of people", property: "long, has many seats", location: "at the bus stop", association: "a bus pass", frame: "You ride the ___ into town", phoneme: "b", difficulty: 1 },
+  { id: 508, set: 5, word: "park", emoji: "🌳", category: "a place", use: "walking or relaxing outside", property: "has grass and paths", location: "in the neighborhood", association: "a walk in fresh air", frame: "You take a walk in the ___", phoneme: "p", difficulty: 1 },
 
   // set 6 — Health & Daily Care
   { id: 601, set: 6, word: "medicine", emoji: "💊", category: "something for your health", use: "helping you feel better", property: "pills or liquid", location: "in the cabinet", association: "the pharmacy", frame: "The doctor prescribed some ___", phoneme: "m", difficulty: 2 },
@@ -60,6 +90,8 @@ export const WORDS = [
   { id: 604, set: 6, word: "towel", icon: "towel", category: "a bathroom item", use: "drying off", property: "soft cloth", location: "hanging in the bathroom", association: "after a shower", frame: "After a shower you dry off with a ___", phoneme: "t", difficulty: 1 },
   { id: 605, set: 6, word: "water", emoji: "💧", category: "something you drink", use: "staying hydrated", property: "clear liquid", location: "from the tap", association: "a glass at dinner", frame: "When you're thirsty, you drink a glass of ___", phoneme: "w", difficulty: 1 },
   { id: 606, set: 6, word: "appointment", emoji: "📅", category: "a scheduled event", use: "meeting the doctor at a set time", property: "written on the calendar", location: "on your schedule", association: "the doctor's office", frame: "The doctor's office called about your ___", phoneme: "a", difficulty: 3 },
+  { id: 607, set: 6, word: "comb", emoji: "🪮", category: "a bathroom item", use: "fixing your hair", property: "has thin teeth in a row", location: "by the bathroom mirror", association: "getting ready in the morning", frame: "You fix your hair with a ___", phoneme: "k", difficulty: 1 },
+  { id: 608, set: 6, word: "thermometer", emoji: "🌡️", category: "a health tool", use: "checking for a fever", property: "shows a number", location: "in the medicine cabinet", association: "feeling sick", frame: "You check your temperature with a ___", phoneme: "th", difficulty: 3 },
 
   // set 7 — In the Garden
   { id: 701, set: 7, word: "flower", emoji: "🌸", category: "a plant", use: "making the garden beautiful", property: "colorful petals", location: "in the garden or a vase", association: "spring", frame: "You put a beautiful ___ in the vase", phoneme: "fl", difficulty: 1 },
@@ -68,6 +100,8 @@ export const WORDS = [
   { id: 704, set: 7, word: "rain", emoji: "🌧️", category: "weather", use: "watering the garden", property: "wet, falls from clouds", location: "outside", association: "gray skies", frame: "The garden got watered by the ___", phoneme: "r", difficulty: 1 },
   { id: 705, set: 7, word: "shovel", emoji: "🪏", category: "a garden tool", use: "digging holes", property: "long handle, flat blade", location: "in the shed", association: "planting", frame: "To dig a hole for planting, you use a ___", phoneme: "sh", difficulty: 2 },
   { id: 706, set: 7, word: "vegetables", emoji: "🥕", category: "food you grow", use: "eating healthy", property: "carrots, beans, tomatoes", location: "in the garden or crisper", association: "the dinner plate", frame: "From the garden you picked fresh ___", phoneme: "v", difficulty: 3 },
+  { id: 707, set: 7, word: "grass", emoji: "🌱", category: "a plant", use: "covering the yard", property: "green and soft", location: "in the yard", association: "mowing on Saturdays", frame: "You mow the ___ on Saturday", phoneme: "gr", difficulty: 1 },
+  { id: 708, set: 7, word: "sun", emoji: "☀️", category: "something in the sky", use: "giving light and warmth", property: "bright and hot", location: "up in the sky", association: "a warm summer day", frame: "The ___ is shining today", phoneme: "s", difficulty: 1 },
 
   // set 8 — Everyday Actions
   { id: 801, set: 8, word: "walk", emoji: "🚶", category: "an action", use: "moving on foot", property: "one step at a time", location: "around the block", association: "fresh air", frame: "Every morning you go for a ___", phoneme: "w", difficulty: 1 },
@@ -76,4 +110,166 @@ export const WORDS = [
   { id: 804, set: 8, word: "laugh", emoji: "😄", category: "an action", use: "showing you find something funny", property: "happy sound", location: "anywhere joyful", association: "a good joke", frame: "A funny joke makes you ___", phoneme: "l", difficulty: 2 },
   { id: 805, set: 8, word: "sing", emoji: "🎵", category: "an action", use: "making music with your voice", property: "melody and words", location: "in the shower or at church", association: "your favorite song", frame: "Along with the radio, you like to ___", phoneme: "s", difficulty: 2 },
   { id: 806, set: 8, word: "remember", emoji: "💭", category: "an action", use: "bringing something back to mind", property: "done in your head", location: "in your thoughts", association: "old photographs", frame: "Looking at old photos helps you ___", phoneme: "r", difficulty: 3 },
+  { id: 807, set: 8, word: "listen", emoji: "👂", category: "an action", use: "paying attention with your ears", property: "done quietly", location: "anywhere", association: "a favorite song or story", frame: "You close your eyes and ___ to the music", phoneme: "l", difficulty: 2 },
+  { id: 808, set: 8, word: "write", emoji: "✍️", category: "an action", use: "putting words on paper", property: "done with a pen", location: "at a desk or table", association: "a letter or a list", frame: "You pick up a pen to ___ a note", phoneme: "r", difficulty: 2 },
+
+  // set 9 — Weather
+  { id: 901, set: 9, word: "snow", emoji: "❄️", category: "weather", use: "covering the ground in winter", property: "cold and white", location: "outside in winter", association: "a snowman", frame: "In winter, ___ covers the yard", phoneme: "s", difficulty: 1 },
+  { id: 902, set: 9, word: "wind", emoji: "💨", category: "weather", use: "blowing leaves and hair", property: "you feel it, can't see it", location: "outside", association: "a windy day", frame: "The ___ blew the leaves off the tree", phoneme: "w", difficulty: 1 },
+  { id: 903, set: 9, word: "cloud", emoji: "☁️", category: "something in the sky", use: "blocking the sun", property: "white or gray, fluffy", location: "up in the sky", association: "a rainy day coming", frame: "A gray ___ covered the sun", phoneme: "kl", difficulty: 1 },
+  { id: 904, set: 9, word: "storm", emoji: "⛈️", category: "weather", use: "bringing heavy rain and wind", property: "loud and windy", location: "outside", association: "staying inside", frame: "You stayed inside during the ___", phoneme: "st", difficulty: 2 },
+  { id: 905, set: 9, word: "ice", emoji: "🧊", category: "frozen water", use: "cooling a drink", property: "cold, hard, slippery", location: "in the freezer or on the road", association: "slipping on the sidewalk", frame: "Be careful, the sidewalk has ___ on it", phoneme: "ai", difficulty: 1 },
+  { id: 906, set: 9, word: "lightning", emoji: "⚡", category: "weather", use: "lighting up the sky in a storm", property: "bright, sudden flash", location: "in the sky during a storm", association: "thunder right after", frame: "A flash of ___ lit up the sky", phoneme: "l", difficulty: 2 },
+  { id: 907, set: 9, word: "fog", emoji: "🌫️", category: "weather", use: "making it hard to see far", property: "thick, gray, low cloud", location: "near the ground", association: "driving slowly", frame: "The ___ made it hard to see the road", phoneme: "f", difficulty: 2 },
+  { id: 908, set: 9, word: "puddle", emoji: "💧", category: "water on the ground", use: "collecting after rain", property: "small and shallow", location: "on the sidewalk or driveway", association: "splashing in rain boots", frame: "After the rain, you jumped over a ___", phoneme: "p", difficulty: 2 },
+
+  // set 10 — Body Parts
+  { id: 1001, set: 10, word: "hand", emoji: "✋", category: "a body part", use: "holding and touching things", property: "has five fingers", location: "at the end of your arm", association: "shaking hands", frame: "You wave hello with your ___", phoneme: "h", difficulty: 1 },
+  { id: 1002, set: 10, word: "foot", emoji: "🦶", category: "a body part", use: "standing and walking", property: "has five toes", location: "at the end of your leg", association: "wearing shoes", frame: "You wear a shoe on each ___", phoneme: "f", difficulty: 1 },
+  { id: 1003, set: 10, word: "arm", emoji: "💪", category: "a body part", use: "reaching and lifting", property: "bends at the elbow", location: "attached to your shoulder", association: "carrying groceries", frame: "You carry the bag on your ___", phoneme: "ar", difficulty: 1 },
+  { id: 1004, set: 10, word: "leg", emoji: "🦵", category: "a body part", use: "standing and walking", property: "bends at the knee", location: "below your hip", association: "climbing stairs", frame: "You climb the stairs using each ___", phoneme: "l", difficulty: 1 },
+  { id: 1005, set: 10, word: "eye", emoji: "👁️", category: "a body part", use: "seeing things", property: "one on each side of your nose", location: "on your face", association: "wearing glasses", frame: "You see with your ___", phoneme: "ai", difficulty: 1 },
+  { id: 1006, set: 10, word: "ear", emoji: "👂", category: "a body part", use: "hearing sounds", property: "one on each side of your head", location: "on the side of your head", association: "wearing a hearing aid", frame: "You hear with your ___", phoneme: "ee", difficulty: 1 },
+  { id: 1007, set: 10, word: "head", emoji: "🗣️", category: "a body part", use: "holding your brain, eyes, and ears", property: "on top of your neck", location: "at the top of your body", association: "wearing a hat", frame: "You wear a hat on your ___", phoneme: "h", difficulty: 1 },
+  { id: 1008, set: 10, word: "back", emoji: "🔙", category: "a body part", use: "supporting your body", property: "behind your chest", location: "on the rear of your body", association: "a backache", frame: "Lifting heavy boxes can hurt your ___", phoneme: "b", difficulty: 1 },
+
+  // set 11 — Food & Drink
+  { id: 1101, set: 11, word: "egg", emoji: "🥚", category: "a food", use: "eating for breakfast", property: "oval, white or brown shell", location: "in the refrigerator", association: "breakfast with toast", frame: "You fry an ___ for breakfast", phoneme: "e", difficulty: 1 },
+  { id: 1102, set: 11, word: "cheese", emoji: "🧀", category: "a food", use: "eating on a sandwich", property: "yellow or white, made from milk", location: "in the refrigerator", association: "a grilled cheese sandwich", frame: "You put a slice of ___ on your sandwich", phoneme: "ch", difficulty: 1 },
+  { id: 1103, set: 11, word: "chicken", emoji: "🍗", category: "a food", use: "eating for dinner", property: "cooked meat", location: "in the refrigerator or oven", association: "Sunday dinner", frame: "You roast a ___ for dinner", phoneme: "ch", difficulty: 2 },
+  { id: 1104, set: 11, word: "rice", emoji: "🍚", category: "a food", use: "a side dish at dinner", property: "small white grains", location: "in the pantry", association: "a dinner plate", frame: "You serve ___ alongside the chicken", phoneme: "r", difficulty: 1 },
+  { id: 1105, set: 11, word: "juice", emoji: "🧃", category: "something you drink", use: "a sweet drink with breakfast", property: "made from fruit", location: "in the refrigerator", association: "orange juice at breakfast", frame: "You drink a glass of orange ___", phoneme: "j", difficulty: 1 },
+  { id: 1106, set: 11, word: "tea", emoji: "🍵", category: "something you drink", use: "a warm drink to relax", property: "brewed from leaves, served hot", location: "made with the kettle", association: "an afternoon break", frame: "You brew a cup of ___ in the afternoon", phoneme: "t", difficulty: 1 },
+  { id: 1107, set: 11, word: "soup", emoji: "🍲", category: "a food", use: "a warm meal in a bowl", property: "warm and liquid", location: "on the stove", association: "a cold winter day", frame: "On a cold day, you make a bowl of ___", phoneme: "s", difficulty: 1 },
+  { id: 1108, set: 11, word: "cake", emoji: "🎂", category: "a food", use: "celebrating a birthday", property: "sweet, often frosted", location: "on the counter", association: "candles and singing", frame: "You light candles on the birthday ___", phoneme: "k", difficulty: 1 },
+
+  // set 12 — Kitchen Items
+  { id: 1201, set: 12, word: "pot", emoji: "🍲", category: "a cooking item", use: "boiling or simmering food", property: "deep, has a handle and lid", location: "on the stove", association: "making soup", frame: "You boil water in a ___", phoneme: "p", difficulty: 1 },
+  { id: 1202, set: 12, word: "pan", emoji: "🍳", category: "a cooking item", use: "frying food", property: "flat, has a handle", location: "on the stove", association: "frying eggs", frame: "You fry eggs in a ___", phoneme: "p", difficulty: 1 },
+  { id: 1203, set: 12, word: "bowl", emoji: "🥣", category: "something you eat from", use: "holding soup or cereal", property: "round and deep", location: "in the cupboard", association: "a bowl of cereal", frame: "You eat your cereal from a ___", phoneme: "b", difficulty: 1 },
+  { id: 1204, set: 12, word: "fork", emoji: "🍴", category: "a utensil", use: "spearing your food", property: "has thin prongs", location: "in the cutlery drawer", association: "eating dinner", frame: "You pick up your food with a ___", phoneme: "f", difficulty: 1 },
+  { id: 1205, set: 12, word: "knife", emoji: "🔪", category: "a utensil", use: "cutting your food", property: "has a sharp blade", location: "in the cutlery drawer", association: "cutting meat", frame: "You cut your meat with a ___", phoneme: "n", difficulty: 1 },
+  { id: 1206, set: 12, word: "oven", emoji: "🔥", category: "a kitchen appliance", use: "baking food", property: "large, gets very hot", location: "built into the kitchen", association: "baking cookies", frame: "You bake the cookies in the ___", phoneme: "o", difficulty: 2 },
+  { id: 1207, set: 12, word: "sink", emoji: "🚰", category: "a kitchen fixture", use: "washing dishes and hands", property: "has a faucet and a drain", location: "in the kitchen counter", association: "doing the dishes", frame: "You wash the dishes in the ___", phoneme: "s", difficulty: 1 },
+  { id: 1208, set: 12, word: "blender", emoji: "🧋", category: "a kitchen appliance", use: "mixing or crushing food", property: "has spinning blades", location: "on the kitchen counter", association: "making a smoothie", frame: "You make a smoothie in the ___", phoneme: "bl", difficulty: 2 },
+
+  // set 13 — Bedroom & Bathroom
+  { id: 1301, set: 13, word: "bed", emoji: "🛏️", category: "bedroom furniture", use: "sleeping at night", property: "soft, has a mattress", location: "in the bedroom", association: "a good night's sleep", frame: "You sleep in your ___ at night", phoneme: "b", difficulty: 1 },
+  { id: 1302, set: 13, word: "blanket", emoji: "🧣", category: "something on a bed", use: "keeping you warm at night", property: "soft, covers you", location: "on the bed", association: "a cold winter night", frame: "You pull the ___ over you at night", phoneme: "bl", difficulty: 1 },
+  { id: 1303, set: 13, word: "mirror", emoji: "🪞", category: "a bathroom item", use: "seeing your reflection", property: "flat glass, reflective", location: "on the bathroom wall", association: "combing your hair", frame: "You check your hair in the ___", phoneme: "m", difficulty: 2 },
+  { id: 1304, set: 13, word: "toothpaste", emoji: "🧴", category: "a bathroom item", use: "cleaning your teeth", property: "comes in a tube", location: "by the bathroom sink", association: "brushing your teeth", frame: "You put ___ on your toothbrush", phoneme: "t", difficulty: 2 },
+  { id: 1305, set: 13, word: "shampoo", emoji: "🧴", category: "a bathroom item", use: "washing your hair", property: "comes in a bottle", location: "in the shower", association: "showering", frame: "You wash your hair with ___", phoneme: "sh", difficulty: 2 },
+  { id: 1306, set: 13, word: "razor", emoji: "🪒", category: "a bathroom item", use: "shaving", property: "has a sharp blade", location: "in the bathroom", association: "shaving in the morning", frame: "You shave with a ___", phoneme: "r", difficulty: 2 },
+  { id: 1307, set: 13, word: "hairbrush", emoji: "💇", category: "a bathroom item", use: "brushing your hair", property: "has bristles", location: "on the bathroom counter", association: "getting ready", frame: "You fix your hair with a ___", phoneme: "h", difficulty: 2 },
+  { id: 1308, set: 13, word: "bathtub", emoji: "🛁", category: "a bathroom fixture", use: "taking a bath", property: "large, holds water", location: "in the bathroom", association: "a relaxing soak", frame: "You take a warm bath in the ___", phoneme: "b", difficulty: 2 },
+
+  // set 14 — Living Room & Electronics
+  { id: 1401, set: 14, word: "couch", emoji: "🛋️", category: "living room furniture", use: "sitting and relaxing", property: "soft, seats several people", location: "in the living room", association: "watching TV together", frame: "You sit on the ___ to watch TV", phoneme: "k", difficulty: 1 },
+  { id: 1402, set: 14, word: "remote", emoji: "📱", category: "a device", use: "changing the TV channel", property: "small, has buttons", location: "on the coffee table", association: "changing the channel", frame: "You change the channel with the ___", phoneme: "r", difficulty: 2 },
+  { id: 1403, set: 14, word: "radio", emoji: "📻", category: "a device", use: "listening to music or news", property: "plays sound, has a dial", location: "on a shelf or in the car", association: "listening to the news", frame: "You listen to music on the ___", phoneme: "r", difficulty: 2 },
+  { id: 1404, set: 14, word: "computer", emoji: "💻", category: "a device", use: "writing, browsing, emailing", property: "has a screen and keyboard", location: "on a desk", association: "sending an email", frame: "You check your email on the ___", phoneme: "k", difficulty: 2 },
+  { id: 1405, set: 14, word: "tablet", emoji: "📱", category: "a device", use: "reading or browsing", property: "flat screen, no keyboard", location: "on the coffee table", association: "reading the news", frame: "You read the news on your ___", phoneme: "t", difficulty: 2 },
+  { id: 1406, set: 14, word: "camera", emoji: "📷", category: "a device", use: "taking pictures", property: "has a lens", location: "on a shelf or in your bag", association: "a family photo", frame: "You take a photo with a ___", phoneme: "k", difficulty: 2 },
+  { id: 1407, set: 14, word: "speaker", emoji: "🔊", category: "a device", use: "playing music loudly", property: "makes sound", location: "on a shelf", association: "playing music at a party", frame: "You play music through the ___", phoneme: "sp", difficulty: 2 },
+  { id: 1408, set: 14, word: "lightbulb", emoji: "💡", category: "a household item", use: "lighting up a room", property: "screws into a lamp", location: "in a lamp or ceiling fixture", association: "a burnt-out light", frame: "You change the ___ when it burns out", phoneme: "l", difficulty: 2 },
+
+  // set 15 — Transportation
+  { id: 1501, set: 15, word: "train", emoji: "🚆", category: "a vehicle", use: "traveling on tracks", property: "long, many cars connected", location: "at the train station", association: "a long trip", frame: "You take the ___ into the city", phoneme: "tr", difficulty: 1 },
+  { id: 1502, set: 15, word: "airplane", emoji: "✈️", category: "a vehicle", use: "flying to far places", property: "has wings, flies in the sky", location: "at the airport", association: "a vacation", frame: "You fly on an ___ for vacation", phoneme: "ai", difficulty: 2 },
+  { id: 1503, set: 15, word: "boat", emoji: "⛵", category: "a vehicle", use: "traveling on water", property: "floats on water", location: "at the dock or lake", association: "fishing", frame: "You go fishing from a ___", phoneme: "b", difficulty: 1 },
+  { id: 1504, set: 15, word: "taxi", emoji: "🚕", category: "a vehicle", use: "getting a ride into town", property: "yellow, has a driver", location: "on the street", association: "a ride to the airport", frame: "You call a ___ to the airport", phoneme: "t", difficulty: 1 },
+  { id: 1505, set: 15, word: "motorcycle", emoji: "🏍️", category: "a vehicle", use: "riding fast on two wheels", property: "two wheels, loud engine", location: "on the road", association: "a leather jacket", frame: "He rides his ___ to work", phoneme: "m", difficulty: 3 },
+  { id: 1506, set: 15, word: "truck", emoji: "🚚", category: "a vehicle", use: "hauling or moving things", property: "large, has a cargo bed", location: "in the driveway", association: "moving day", frame: "You load the boxes into the ___", phoneme: "tr", difficulty: 1 },
+  { id: 1507, set: 15, word: "subway", emoji: "🚇", category: "a vehicle", use: "traveling underground in a city", property: "runs underground", location: "at the subway station", association: "commuting in the city", frame: "You take the ___ to work", phoneme: "s", difficulty: 2 },
+  { id: 1508, set: 15, word: "ferry", emoji: "⛴️", category: "a vehicle", use: "carrying people and cars across water", property: "large boat, carries vehicles", location: "at the ferry dock", association: "crossing the harbor", frame: "You take the ___ across the bay", phoneme: "f", difficulty: 2 },
+
+  // set 16 — Community Places
+  { id: 1601, set: 16, word: "bank", emoji: "🏦", category: "a place", use: "keeping your money safe", property: "has tellers and a vault", location: "in town", association: "depositing a check", frame: "You deposit your check at the ___", phoneme: "b", difficulty: 1 },
+  { id: 1602, set: 16, word: "hospital", emoji: "🏥", category: "a place", use: "treating serious illness or injury", property: "large, has doctors and nurses", location: "in town", association: "an emergency room", frame: "After the fall, she went to the ___", phoneme: "h", difficulty: 2 },
+  { id: 1603, set: 16, word: "school", emoji: "🏫", category: "a place", use: "learning and teaching", property: "has classrooms", location: "in the neighborhood", association: "the grandchildren's classes", frame: "The grandchildren go to ___ every day", phoneme: "sk", difficulty: 1 },
+  { id: 1604, set: 16, word: "gym", emoji: "🏋️", category: "a place", use: "exercising", property: "has equipment for exercise", location: "in town", association: "staying active", frame: "You go to the ___ to stay active", phoneme: "j", difficulty: 1 },
+  { id: 1605, set: 16, word: "salon", emoji: "💇", category: "a place", use: "getting your hair done", property: "has stylists and chairs", location: "in town", association: "a haircut", frame: "You get your hair cut at the ___", phoneme: "s", difficulty: 2 },
+  { id: 1606, set: 16, word: "gas station", emoji: "⛽", category: "a place", use: "filling up your car", property: "has fuel pumps", location: "along the road", association: "a road trip", frame: "You stop for fuel at the ___", phoneme: "g", difficulty: 2 },
+  { id: 1607, set: 16, word: "market", emoji: "🛒", category: "a place", use: "buying fresh food", property: "has stalls or aisles of food", location: "in town", association: "fresh produce", frame: "You buy fresh vegetables at the ___", phoneme: "m", difficulty: 1 },
+  { id: 1608, set: 16, word: "post office", emoji: "📮", category: "a place", use: "mailing letters and packages", property: "has mailboxes and clerks", location: "in town", association: "mailing a birthday card", frame: "You mail the package at the ___", phoneme: "p", difficulty: 2 },
+
+  // set 17 — Nature & Outdoors
+  { id: 1701, set: 17, word: "mountain", emoji: "⛰️", category: "a landform", use: "hiking or admiring the view", property: "very tall, rocky", location: "far off in the distance", association: "a scenic view", frame: "You can see the ___ from here", phoneme: "m", difficulty: 2 },
+  { id: 1702, set: 17, word: "lake", emoji: "🏞️", category: "a body of water", use: "swimming or fishing", property: "calm, surrounded by land", location: "outside of town", association: "a summer swim", frame: "You swim in the ___ in summer", phoneme: "l", difficulty: 1 },
+  { id: 1703, set: 17, word: "ocean", emoji: "🌊", category: "a body of water", use: "swimming or beach walks", property: "huge, salty water", location: "at the coast", association: "a beach vacation", frame: "You walk along the ___ on vacation", phoneme: "o", difficulty: 2 },
+  { id: 1704, set: 17, word: "forest", emoji: "🌲", category: "a place with trees", use: "hiking among the trees", property: "full of trees", location: "outside of town", association: "a nature walk", frame: "You hike through the ___", phoneme: "f", difficulty: 2 },
+  { id: 1705, set: 17, word: "beach", emoji: "🏖️", category: "a place by the water", use: "relaxing in the sand", property: "sandy, next to the water", location: "at the coast", association: "a summer vacation", frame: "You relax on the ___ in summer", phoneme: "b", difficulty: 1 },
+  { id: 1706, set: 17, word: "river", emoji: "🏞️", category: "a body of water", use: "flowing through the land", property: "long, flowing water", location: "through the countryside", association: "a fishing trip", frame: "You fish along the ___", phoneme: "r", difficulty: 1 },
+  { id: 1707, set: 17, word: "sunset", emoji: "🌅", category: "something in the sky", use: "ending the day", property: "orange and pink sky", location: "on the horizon", association: "an evening walk", frame: "You watched the ___ from the porch", phoneme: "s", difficulty: 2 },
+  { id: 1708, set: 17, word: "garden", emoji: "🌷", category: "an outdoor space", use: "growing plants and flowers", property: "has soil and plants", location: "in the yard", association: "planting flowers", frame: "You plant flowers in the ___", phoneme: "g", difficulty: 1 },
+
+  // set 18 — Animals
+  { id: 1801, set: 18, word: "dog", emoji: "🐕", category: "an animal", use: "a loyal pet", property: "barks, has fur", location: "at home or on a walk", association: "a walk in the park", frame: "You take the ___ for a walk", phoneme: "d", difficulty: 1 },
+  { id: 1802, set: 18, word: "cat", emoji: "🐈", category: "an animal", use: "a quiet pet", property: "meows, has fur", location: "at home", association: "curling up on the couch", frame: "The ___ curled up on the couch", phoneme: "k", difficulty: 1 },
+  { id: 1803, set: 18, word: "fish", emoji: "🐟", category: "an animal", use: "swimming, or catching to eat", property: "lives in water, has fins", location: "in the water or an aquarium", association: "a fishing trip", frame: "You caught a ___ at the lake", phoneme: "f", difficulty: 1 },
+  { id: 1804, set: 18, word: "horse", emoji: "🐴", category: "an animal", use: "riding", property: "large, four legs, a mane", location: "on a farm", association: "riding lessons", frame: "You ride the ___ around the farm", phoneme: "h", difficulty: 1 },
+  { id: 1805, set: 18, word: "rabbit", emoji: "🐇", category: "an animal", use: "hopping around the yard", property: "long ears, fluffy tail", location: "in the yard or a hutch", association: "carrots", frame: "The ___ hopped across the yard", phoneme: "r", difficulty: 2 },
+  { id: 1806, set: 18, word: "squirrel", emoji: "🐿️", category: "an animal", use: "gathering nuts", property: "bushy tail, climbs trees", location: "in the yard or trees", association: "the bird feeder", frame: "A ___ climbed the tree in the yard", phoneme: "skw", difficulty: 3 },
+  { id: 1807, set: 18, word: "duck", emoji: "🦆", category: "an animal", use: "swimming on the pond", property: "webbed feet, quacks", location: "on a pond", association: "feeding bread at the park", frame: "You fed the ___ at the pond", phoneme: "d", difficulty: 1 },
+  { id: 1808, set: 18, word: "butterfly", emoji: "🦋", category: "an animal", use: "flying among the flowers", property: "colorful wings", location: "in the garden", association: "a spring garden", frame: "A ___ landed on the flower", phoneme: "b", difficulty: 2 },
+
+  // set 19 — Tools & Repair
+  { id: 1901, set: 19, word: "hammer", emoji: "🔨", category: "a tool", use: "pounding in a nail", property: "has a handle and a heavy head", location: "in the toolbox", association: "hanging a picture", frame: "You pound the nail with a ___", phoneme: "h", difficulty: 1 },
+  { id: 1902, set: 19, word: "screwdriver", emoji: "🪛", category: "a tool", use: "turning a screw", property: "has a handle and a thin tip", location: "in the toolbox", association: "fixing a loose hinge", frame: "You tighten the screw with a ___", phoneme: "skr", difficulty: 3 },
+  { id: 1903, set: 19, word: "wrench", emoji: "🔧", category: "a tool", use: "turning a bolt or nut", property: "has an open or adjustable end", location: "in the toolbox", association: "fixing a pipe", frame: "You loosen the bolt with a ___", phoneme: "r", difficulty: 2 },
+  { id: 1904, set: 19, word: "nail", emoji: "🔩", category: "a small metal object", use: "holding wood together", property: "thin, pointed metal", location: "in a jar in the garage", association: "hanging a picture", frame: "You hammer a ___ into the wall", phoneme: "n", difficulty: 1 },
+  { id: 1905, set: 19, word: "paintbrush", emoji: "🖌️", category: "a tool", use: "painting a wall or picture", property: "has bristles on a handle", location: "in the garage or art box", association: "painting the fence", frame: "You paint the fence with a ___", phoneme: "p", difficulty: 2 },
+  { id: 1906, set: 19, word: "toolbox", emoji: "🧰", category: "something that holds tools", use: "storing your tools", property: "a box with a handle", location: "in the garage", association: "a home repair", frame: "You keep your tools in a ___", phoneme: "t", difficulty: 2 },
+  { id: 1907, set: 19, word: "drill", emoji: "🪛", category: "a tool", use: "making holes or driving screws", property: "spins fast, has a trigger", location: "in the garage", association: "hanging a shelf", frame: "You make a hole with a ___", phoneme: "dr", difficulty: 1 },
+  { id: 1908, set: 19, word: "ladder", emoji: "🪜", category: "a tool", use: "reaching high places", property: "has rungs to climb", location: "in the garage or shed", association: "cleaning the gutters", frame: "You climb the ___ to clean the gutters", phoneme: "l", difficulty: 1 },
+
+  // set 20 — School & Hobbies
+  { id: 2001, set: 20, word: "book", emoji: "📖", category: "something you read", use: "reading a story", property: "has pages and a cover", location: "on the shelf or nightstand", association: "a bedtime story", frame: "You read a ___ before bed", phoneme: "b", difficulty: 1 },
+  { id: 2002, set: 20, word: "pen", emoji: "🖊️", category: "a writing tool", use: "writing in ink", property: "has ink inside", location: "in a drawer or on a desk", association: "signing a card", frame: "You sign the card with a ___", phoneme: "p", difficulty: 1 },
+  { id: 2003, set: 20, word: "pencil", emoji: "✏️", category: "a writing tool", use: "writing or drawing", property: "has lead, can be erased", location: "in a drawer or on a desk", association: "doing a crossword", frame: "You fill in the crossword with a ___", phoneme: "p", difficulty: 1 },
+  { id: 2004, set: 20, word: "paper", emoji: "📄", category: "something you write on", use: "writing a note or letter", property: "thin and flat", location: "in a drawer or notebook", association: "a grocery list", frame: "You write your list on a piece of ___", phoneme: "p", difficulty: 2 },
+  { id: 2005, set: 20, word: "scissors", emoji: "✂️", category: "a tool", use: "cutting paper", property: "two blades, a finger hole on each side", location: "in a drawer", association: "wrapping a gift", frame: "You cut the wrapping paper with ___", phoneme: "s", difficulty: 2 },
+  { id: 2006, set: 20, word: "glue", emoji: "🧴", category: "something that sticks things together", use: "sticking paper or crafts together", property: "sticky liquid", location: "in a craft drawer", association: "a craft project", frame: "You stick the pieces together with ___", phoneme: "gl", difficulty: 1 },
+  { id: 2007, set: 20, word: "painting", emoji: "🎨", category: "a hobby or artwork", use: "creating art with a brush", property: "colorful, made with paint", location: "on an easel or the wall", association: "a relaxing hobby", frame: "She spends the afternoon ___ in her studio", phoneme: "p", difficulty: 2 },
+  { id: 2008, set: 20, word: "puzzle", emoji: "🧩", category: "a hobby", use: "fitting pieces together", property: "made of interlocking pieces", location: "on the table", association: "a rainy afternoon", frame: "You put together a ___ on a rainy day", phoneme: "p", difficulty: 2 },
+
+  // set 21 — Money & Shopping
+  { id: 2101, set: 21, word: "wallet", emoji: "👛", category: "something you carry", use: "holding your money and cards", property: "folds, fits in a pocket", location: "in your pocket or purse", association: "paying at the register", frame: "You pull out your ___ to pay", phoneme: "w", difficulty: 1 },
+  { id: 2102, set: 21, word: "purse", emoji: "👜", category: "something you carry", use: "carrying your belongings", property: "has a strap, carried on your arm", location: "on your shoulder or arm", association: "shopping", frame: "She carries her ___ to the store", phoneme: "p", difficulty: 1 },
+  { id: 2103, set: 21, word: "receipt", emoji: "🧾", category: "a piece of paper", use: "proving you paid for something", property: "printed paper showing a total", location: "in the shopping bag", association: "returning an item", frame: "You keep the ___ in case you return it", phoneme: "r", difficulty: 3 },
+  { id: 2104, set: 21, word: "cart", emoji: "🛒", category: "something you push", use: "carrying groceries around the store", property: "has wheels and a basket", location: "at the store entrance", association: "grocery shopping", frame: "You push the ___ through the store", phoneme: "k", difficulty: 1 },
+  { id: 2105, set: 21, word: "bag", emoji: "🛍️", category: "something you carry things in", use: "carrying groceries home", property: "has handles", location: "at the checkout", association: "carrying groceries home", frame: "You carry your groceries home in a ___", phoneme: "b", difficulty: 1 },
+  { id: 2106, set: 21, word: "coupon", emoji: "🎟️", category: "a piece of paper", use: "saving money on a purchase", property: "printed paper with a discount", location: "in your wallet or the mail", association: "saving money", frame: "You save money with a ___", phoneme: "k", difficulty: 2 },
+  { id: 2107, set: 21, word: "credit card", emoji: "💳", category: "a payment method", use: "paying without cash", property: "small plastic card", location: "in your wallet", association: "paying at the register", frame: "You pay with your ___ at the register", phoneme: "kr", difficulty: 3 },
+  { id: 2108, set: 21, word: "cash register", emoji: "🧾", category: "a store machine", use: "ringing up your purchase", property: "sits at the checkout counter", location: "at the front of the store", association: "paying for groceries", frame: "The clerk rings up your items at the ___", phoneme: "k", difficulty: 3 },
+
+  // set 22 — Sports & Recreation
+  { id: 2201, set: 22, word: "ball", emoji: "⚾", category: "sports equipment", use: "playing catch or a game", property: "round, bounces", location: "in the yard or garage", association: "playing catch", frame: "You throw the ___ back and forth", phoneme: "b", difficulty: 1 },
+  { id: 2202, set: 22, word: "bicycle", emoji: "🚲", category: "sports equipment", use: "riding for exercise", property: "two wheels, pedals", location: "in the garage", association: "a bike ride", frame: "You ride your ___ around the block", phoneme: "b", difficulty: 2 },
+  { id: 2203, set: 22, word: "swimming pool", emoji: "🏊", category: "a place to swim", use: "swimming for exercise or fun", property: "large, filled with water", location: "in the backyard or at the gym", association: "cooling off in summer", frame: "You cool off in the ___ in summer", phoneme: "sw", difficulty: 3 },
+  { id: 2204, set: 22, word: "tennis racket", emoji: "🎾", category: "sports equipment", use: "hitting a tennis ball", property: "has strings stretched across a frame", location: "in the closet or gym bag", association: "a match with a friend", frame: "You hit the ball with a ___", phoneme: "t", difficulty: 3 },
+  { id: 2205, set: 22, word: "golf club", emoji: "⛳", category: "sports equipment", use: "hitting a golf ball", property: "long handle, metal head", location: "in the golf bag", association: "a round of golf", frame: "You hit the ball with a ___", phoneme: "g", difficulty: 2 },
+  { id: 2206, set: 22, word: "fishing rod", emoji: "🎣", category: "sports equipment", use: "catching fish", property: "long pole with a reel", location: "in the garage or boat", association: "a day at the lake", frame: "You cast your line with a ___", phoneme: "f", difficulty: 2 },
+  { id: 2207, set: 22, word: "football", emoji: "🏈", category: "sports equipment", use: "playing or watching a game", property: "oval-shaped ball", location: "in the yard or on TV", association: "Sunday afternoon games", frame: "You watch the ___ game on Sunday", phoneme: "f", difficulty: 2 },
+  { id: 2208, set: 22, word: "basketball", emoji: "🏀", category: "sports equipment", use: "shooting hoops", property: "round, orange, bounces", location: "on the court or driveway", association: "shooting hoops with grandkids", frame: "You shoot the ___ with your grandson", phoneme: "b", difficulty: 2 },
+
+  // set 23 — Celebrations
+  { id: 2301, set: 23, word: "balloon", emoji: "🎈", category: "a party decoration", use: "decorating for a celebration", property: "colorful, filled with air", location: "at a party", association: "a birthday party", frame: "You tie a ___ to the chair at the party", phoneme: "b", difficulty: 1 },
+  { id: 2302, set: 23, word: "candle", emoji: "🕯️", category: "something you light", use: "lighting a birthday cake", property: "wax with a wick", location: "on the cake or table", association: "making a wish", frame: "You blow out the ___ and make a wish", phoneme: "k", difficulty: 1 },
+  { id: 2303, set: 23, word: "gift", emoji: "🎁", category: "something you give", use: "celebrating someone special", property: "wrapped in paper", location: "on the gift table", association: "a birthday or holiday", frame: "You open the ___ from your family", phoneme: "g", difficulty: 1 },
+  { id: 2304, set: 23, word: "christmas tree", emoji: "🎄", category: "a holiday decoration", use: "decorating for Christmas", property: "green, covered in lights and ornaments", location: "in the living room", association: "Christmas morning", frame: "You decorate the ___ together every year", phoneme: "kr", difficulty: 3 },
+  { id: 2305, set: 23, word: "fireworks", emoji: "🎆", category: "a celebration display", use: "celebrating a holiday", property: "bright, loud, in the sky", location: "in the night sky", association: "the Fourth of July", frame: "You watch the ___ on the Fourth of July", phoneme: "f", difficulty: 3 },
+  { id: 2306, set: 23, word: "calendar", emoji: "📅", category: "something that tracks days", use: "keeping track of important dates", property: "shows the days of the month", location: "on the wall or fridge", association: "marking a birthday", frame: "You mark the birthday on the ___", phoneme: "k", difficulty: 2 },
+  { id: 2307, set: 23, word: "photograph", emoji: "📷", category: "a picture", use: "remembering a special moment", property: "printed or on a screen", location: "in an album or on the wall", association: "an old family memory", frame: "You look at an old ___ of the family", phoneme: "f", difficulty: 3 },
+  { id: 2308, set: 23, word: "birthday cake", emoji: "🎂", category: "a celebration food", use: "celebrating a birthday", property: "sweet, has candles", location: "on the party table", association: "singing happy birthday", frame: "Everyone sings before you cut the ___", phoneme: "b", difficulty: 2 },
+
+  // set 24 — Health & Mobility Aids
+  { id: 2401, set: 24, word: "cane", emoji: "🦯", category: "a mobility aid", use: "helping you balance while walking", property: "a long stick with a handle", location: "by the front door", association: "walking to the mailbox", frame: "You steady yourself with a ___", phoneme: "k", difficulty: 1 },
+  { id: 2402, set: 24, word: "wheelchair", emoji: "🦽", category: "a mobility aid", use: "getting around without walking", property: "has wheels and a seat", location: "by the front door", association: "a trip to the doctor", frame: "She gets around in a ___", phoneme: "w", difficulty: 2 },
+  { id: 2403, set: 24, word: "walker", emoji: "🚶", category: "a mobility aid", use: "helping you walk steadily", property: "a frame with four legs", location: "by the bed or front door", association: "walking down the hall", frame: "He uses a ___ to walk down the hall", phoneme: "w", difficulty: 2 },
+  { id: 2404, set: 24, word: "hearing aid", emoji: "👂", category: "a health device", use: "helping you hear better", property: "small, fits in or behind your ear", location: "in your ear", association: "hearing the TV better", frame: "She wears a ___ to hear better", phoneme: "h", difficulty: 3 },
+  { id: 2405, set: 24, word: "blood pressure monitor", emoji: "🩺", category: "a health device", use: "checking your blood pressure", property: "has a cuff that squeezes your arm", location: "at home or the doctor's office", association: "a checkup", frame: "The nurse checks your numbers with a ___", phoneme: "bl", difficulty: 3 },
+  { id: 2406, set: 24, word: "bandage", emoji: "🩹", category: "a health item", use: "covering a cut or scrape", property: "sticky strip", location: "in the medicine cabinet", association: "a small cut", frame: "You cover the cut with a ___", phoneme: "b", difficulty: 2 },
+  { id: 2407, set: 24, word: "crutches", emoji: "🩼", category: "a mobility aid", use: "walking with an injured leg", property: "two, fit under your arms", location: "by the front door", association: "a broken ankle", frame: "He walked on ___ after hurting his ankle", phoneme: "kr", difficulty: 2 },
+  { id: 2408, set: 24, word: "medication organizer", emoji: "💊", category: "a health item", use: "keeping track of daily pills", property: "has a slot for each day", location: "on the kitchen counter", association: "taking morning medicine", frame: "You fill the ___ for the week", phoneme: "m", difficulty: 3 },
 ];
